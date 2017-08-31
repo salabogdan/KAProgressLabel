@@ -10,7 +10,6 @@
 
 @class KAProgressLabel;
 typedef void(^labelValueChangedCompletion)(KAProgressLabel *label);
-typedef void(^labelAnimationCompletion)(KAProgressLabel *label);
 
 
 
@@ -18,17 +17,20 @@ IB_DESIGNABLE
 @interface KAProgressLabel : UILabel
 
 @property (nonatomic, copy) labelValueChangedCompletion labelVCBlock;
-@property (nonatomic, copy) labelAnimationCompletion labelAnimCompleteBlock;
 
 // Style
-@property (nonatomic) IBInspectable CGFloat trackWidth; 
+@property (nonatomic) IBInspectable CGFloat trackWidth;
+@property (nonatomic) IBInspectable CGFloat borderWidth;
 @property (nonatomic) IBInspectable CGFloat progressWidth;
-@property (nonatomic) IBInspectable CGFloat roundedCornersWidth;
+@property (nonatomic) IBInspectable CGFloat endRoundedCornersWidth;
+@property (nonatomic) IBInspectable CGFloat startRoundedCornersWidth;
+
 @property (nonatomic, copy) IBInspectable UIColor * fillColor;
 @property (nonatomic, copy) IBInspectable UIColor * trackColor;
 @property (nonatomic, copy) IBInspectable UIColor * progressColor;
-@property (nonatomic, strong) UILabel * startLabel;
-@property (nonatomic, strong) UILabel * endLabel;
+@property (nonatomic, copy) IBInspectable UIColor * borderColor;
+@property (nonatomic, strong) UIView * startView;
+@property (nonatomic, strong) UIView * endView;
 
 // Logic
 @property (nonatomic) IBInspectable CGFloat startDegree;
@@ -51,12 +53,14 @@ IB_DESIGNABLE
 - (void)setEndDegree:(CGFloat)endDegree
              timing:(TPPropertyAnimationTiming)timing
            duration:(CGFloat)duration
-              delay:(CGFloat)delay;
+              delay:(CGFloat)delay
+		  completion:(void (^)())completionBlock;
 
-- (void)setProgress:(CGFloat)progress
-            timing:(TPPropertyAnimationTiming)timing
-          duration:(CGFloat)duration
-             delay:(CGFloat)delay;
+-(void)setProgress:(CGFloat)progress
+			timing:(TPPropertyAnimationTiming)timing
+		  duration:(CGFloat)duration
+			 delay:(CGFloat)delay
+		completion:(void (^)())completionBlock;
 
 - (void)stopAnimations;
 @end

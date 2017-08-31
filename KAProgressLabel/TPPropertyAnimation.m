@@ -36,7 +36,7 @@ static TPPropertyAnimationManager *__manager = nil;
 @implementation TPPropertyAnimation
 @synthesize target, delegate, keyPath, duration, timing, fromValue, toValue, chainedAnimation, startTime, startDelay;
 
-- (id)initWithKeyPath:(NSString*)theKeyPath {
+- (instancetype)initWithKeyPath:(NSString*)theKeyPath {
     if ( !(self = [super init]) ) return nil;
     keyPath = theKeyPath ;
     timing = TPPropertyAnimationTimingEaseInEaseOut;
@@ -46,7 +46,7 @@ static TPPropertyAnimationManager *__manager = nil;
 }
 
 + (TPPropertyAnimation*)propertyAnimationWithKeyPath:(NSString*)keyPath {
-    return [[TPPropertyAnimation alloc] initWithKeyPath:keyPath] ;
+    return [[self alloc] initWithKeyPath:keyPath] ;
 }
 
 + (NSArray*)allPropertyAnimationsForTarget:(id)target {
@@ -107,7 +107,7 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1) {
 
 + (TPPropertyAnimationManager*)manager {
     if ( !__manager ) {
-        __manager = [[TPPropertyAnimationManager alloc] init];
+        __manager = [[self alloc] init];
     }
     return __manager;
 }
@@ -143,7 +143,7 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1) {
 - (void)removeAnimation:(TPPropertyAnimation *)animation {
     [animations removeObject:animation];
     
-    if ( [animations count] == 0 ) {
+    if ( animations.count == 0 ) {
         [timer invalidate]; timer = nil;
         __manager = nil;
     }
@@ -182,7 +182,7 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1) {
         // Determine interpolation between values given position
         id value = nil;
         if ( [animation.fromValue isKindOfClass:[NSNumber class]] ) {
-            value = [NSNumber numberWithDouble:[animation.fromValue doubleValue] + (position*([animation.toValue doubleValue] - [animation.fromValue doubleValue]))];
+            value = @([animation.fromValue doubleValue] + (position*([animation.toValue doubleValue] - [animation.fromValue doubleValue])));
         } else {
             NSLog(@"Unsupported property type %@", NSStringFromClass([animation.fromValue class]));
         }
@@ -197,6 +197,11 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1) {
             if ( animation.delegate ) {
                 [animation.delegate propertyAnimationDidFinish:animation];
             }
+			
+			if (animation.completion) {
+				animation.completion();
+			}
+			
             if ( animation.chainedAnimation ) {
                 [animation.chainedAnimation begin];
             }

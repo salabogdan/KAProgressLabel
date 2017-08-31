@@ -27,19 +27,22 @@
 {
     // KVO
     [self removeObserver:self forKeyPath:@"trackWidth"];
+    [self removeObserver:self forKeyPath:@"borderWidth"];
     [self removeObserver:self forKeyPath:@"progressWidth"];
     [self removeObserver:self forKeyPath:@"fillColor"];
     [self removeObserver:self forKeyPath:@"trackColor"];
+    [self removeObserver:self forKeyPath:@"borderColor"];
     [self removeObserver:self forKeyPath:@"progressColor"];
     [self removeObserver:self forKeyPath:@"startDegree"];
     [self removeObserver:self forKeyPath:@"endDegree"];
-    [self removeObserver:self forKeyPath:@"roundedCornersWidth"];
-
-    [self.startLabel removeObserver:self forKeyPath:@"text"];
-    [self.endLabel removeObserver:self forKeyPath:@"text"];
+    [self removeObserver:self forKeyPath:@"endRoundedCornersWidth"];
+    [self removeObserver:self forKeyPath:@"startRoundedCornersWidth"];
+    
+    [self removeObserver:self forKeyPath:@"startView"];
+    [self removeObserver:self forKeyPath:@"endView"];
 }
 
--(id)initWithFrame:(CGRect)frame
+-(instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -48,7 +51,7 @@
     return self;
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if(self) {
@@ -63,7 +66,7 @@
     _startDegree        = 0;
     _endDegree          = 0;
     _progress           = 0;
-
+    
     // We need a square view
     // For now, we resize  and center the view
     if(self.frame.size.width != self.frame.size.height){
@@ -80,43 +83,51 @@
         }
     }
     [self setUserInteractionEnabled:YES];
-
+    
     // Style
     self.textAlignment = NSTextAlignmentCenter;
     _trackWidth             = 5.0;
+    _borderWidth            = 0.0;
     _progressWidth          = 5.0;
-    _roundedCornersWidth    = 0.0;
+    _startRoundedCornersWidth   = 0.0;
+    _endRoundedCornersWidth     = 0.0;
     _fillColor              = [UIColor clearColor];
     _trackColor             = [UIColor lightGrayColor];
+    _borderColor            = [UIColor clearColor];
     _progressColor          = [UIColor blackColor];
+	
+    
+    [self addObservers];
+}
 
-    _startLabel = [[UILabel  alloc] initWithFrame:CGRectZero];
-    _startLabel.textAlignment = NSTextAlignmentCenter;
-    _startLabel.adjustsFontSizeToFitWidth = YES;
-    _startLabel.minimumScaleFactor = .1;
-    _startLabel.clipsToBounds = YES;
-
-    _endLabel = [[UILabel  alloc] initWithFrame:CGRectZero];
-    _endLabel.textAlignment = NSTextAlignmentCenter;
-    _endLabel.adjustsFontSizeToFitWidth = YES;
-    _endLabel.minimumScaleFactor = .1;
-    _endLabel.clipsToBounds = YES;
-
-    [self addSubview:self.startLabel];
-    [self addSubview:self.endLabel];
-
+- (void)addObservers {
     // KVO
-    [self addObserver:self forKeyPath:@"trackWidth"             options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"progressWidth"          options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"fillColor"              options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"trackColor"             options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"progressColor"          options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"startDegree"            options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"endDegree"              options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"roundedCornersWidth"    options:NSKeyValueObservingOptionNew context:nil];
-
-    [_startLabel addObserver:self forKeyPath:@"text"   options:NSKeyValueObservingOptionNew context:nil];
-    [_endLabel addObserver:self forKeyPath:@"text"    options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"trackWidth"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"borderWidth"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"progressWidth"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"fillColor"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"borderColor"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"trackColor"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"progressColor"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"startDegree"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"endDegree"                    
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"endRoundedCornersWidth"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"startRoundedCornersWidth"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"startView"
+              options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"endView"
+              options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)drawRect:(CGRect)rect
@@ -133,10 +144,10 @@
                        context:(void *)context
 {
     [self setNeedsDisplay] ;
-
+    
     if([keyPath isEqualToString:@"startDegree"] ||
        [keyPath isEqualToString:@"endDegree"]){
-
+        
         KAProgressLabel *__unsafe_unretained weakSelf = self;
         if(self.labelVCBlock) {
             self.labelVCBlock(weakSelf);
@@ -180,8 +191,22 @@
 
 -(void)setProgress:(CGFloat)progress
 {
-    [self setStartDegree:0];
-    [self setEndDegree:progress*360];
+    if(self.startDegree != 0){
+        self.startDegree = 0;
+    }
+    self.endDegree = progress*360;
+}
+
+- (void)setStartView:(UIView *)startView {
+	[_startView removeFromSuperview];
+	_startView = startView;
+	[self addSubview:startView];
+}
+
+- (void)setEndView:(UIView *)endView {
+	[_endView removeFromSuperview];
+	_endView = endView;
+	[self addSubview:endView];
 }
 
 #pragma mark - Animations
@@ -196,28 +221,27 @@
     animation.startDelay = delay;
     animation.timing = timing;
     [animation beginWithTarget:self];
-
+    
     _currentStartDegreeAnimation = animation;
 }
 
--(void)setEndDegree:(CGFloat)endDegree timing:(TPPropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay
+-(void)setEndDegree:(CGFloat)endDegree timing:(TPPropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay completion:(void (^)())completionBlock
 {
     TPPropertyAnimation *animation = [TPPropertyAnimation propertyAnimationWithKeyPath:@"endDegree"];
-    animation.delegate = self;
-    animation.fromValue = @(_endDegree+90);
+	animation.completion = completionBlock;
+	animation.fromValue = @(_endDegree+90);
     animation.toValue = @(endDegree);
     animation.duration = duration;
     animation.startDelay = delay;
     animation.timing = timing;
     [animation beginWithTarget:self];
-
+	
     _currentEndDegreeAnimation = animation;
 }
 
--(void)setProgress:(CGFloat)progress timing:(TPPropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay
+-(void)setProgress:(CGFloat)progress timing:(TPPropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay completion:(void (^)())completionBlock;
 {
-    [self setStartDegree:0];
-    [self setEndDegree:(progress*360) timing:timing duration:duration delay:delay];
+    [self setEndDegree:(progress*360) timing:timing duration:duration delay:delay completion:completionBlock];
 }
 
 - (void) stopAnimations
@@ -236,10 +260,6 @@
 {
     _currentStartDegreeAnimation = nil;
     _currentEndDegreeAnimation = nil;
-
-    if (self.labelAnimCompleteBlock) {
-        self.labelAnimCompleteBlock(self);
-    }
 }
 
 #pragma mark - Touch Interaction
@@ -247,9 +267,6 @@
 // Limit touch to actual disc surface
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    if (!self.isUserInteractionEnabled || self.isHidden || self.alpha <= 0.01) {
-        return nil;
-    }
     UIBezierPath *p = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
     return  ([p containsPoint:point])? self : nil;
 }
@@ -273,33 +290,33 @@
        !self.isEndDegreeUserInteractive){
         return;
     }
-
+    
     UITouch * touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self];
-
+    
     // Coordinates to polar
     float x = touchLocation.x - self.frame.size.width/2;
     float y = touchLocation.y - self.frame.size.height/2;
     int angle = KARadiansToDegrees(atan(y/x));
     angle += (x>=0)?  90 : 270;
-
+    
     // Interact
     if(!self.isStartDegreeUserInteractive) // Only End
     {
-        [self setEndDegree:angle];
+        self.endDegree = angle;
     }
     else if(!self.isEndDegreeUserInteractive) // Only Start
     {
-        [self setStartDegree:angle];
+        self.startDegree = angle;
     }
     else // All,hence move nearest knob
     {
-        float startDelta = sqrt(pow(self.startLabel.center.x-touchLocation.x,2) + pow(self.startLabel.center.y- touchLocation.y,2));
-        float endDelta = sqrt(pow(self.endLabel.center.x-touchLocation.x,2) + pow(self.endLabel.center.y - touchLocation.y,2));
+        float startDelta = sqrt(pow(self.startView.center.x-touchLocation.x,2) + pow(self.startView.center.y- touchLocation.y,2));
+        float endDelta = sqrt(pow(self.endView.center.x-touchLocation.x,2) + pow(self.endView.center.y - touchLocation.y,2));
         if(startDelta<endDelta){
-            [self setStartDegree:angle];
+            self.startDegree = angle;
         }else{
-            [self setEndDegree:angle];
+            self.endDegree = angle;
         }
     }
 }
@@ -309,93 +326,110 @@
 -(void)drawProgressLabelCircleInRect:(CGRect)rect
 {
     CGRect circleRect= [self rectForCircle:rect];
-    CGFloat archXPos = rect.size.width/2 + rect.origin.x;
-    CGFloat archYPos = rect.size.height/2 + rect.origin.y;
-    CGFloat archRadius = (circleRect.size.width) / 2.0;
-
-    if(isnan(_endDegree)){
-        self.endDegree = 0;
-    }
-
-    if(isnan(_startDegree)){
-        self.startDegree = 0;
-    }
+    CGFloat archXPos = (rect.size.width-(2*_borderWidth))/2 + rect.origin.x;
+    CGFloat archYPos = (rect.size.width-(2*_borderWidth))/2 + rect.origin.y;
+    CGFloat archRadius = (circleRect.size.width - (2*_borderWidth)) / 2.0;
     
     int clockwise = 0;
     if (self.progress < 0.0f) {
         clockwise = 1;
     }
-
+    
     CGFloat trackStartAngle = KADegreesToRadians(0);
     CGFloat trackEndAngle = KADegreesToRadians(360);
     CGFloat progressStartAngle = KADegreesToRadians(_startDegree);
     CGFloat progressEndAngle = KADegreesToRadians(_endDegree);
-
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
-
+    
     // Circle
     CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
     CGContextFillEllipseInRect(context, circleRect);
     CGContextStrokePath(context);
-
+    
+    // Border Track
+    CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
+    CGContextSetLineWidth(context, _trackWidth+_borderWidth);
+    CGContextAddArc(context, archXPos,archYPos, archRadius, trackStartAngle, trackEndAngle, 1);
+    CGContextStrokePath(context);
+    
     // Track
     CGContextSetStrokeColorWithColor(context, self.trackColor.CGColor);
     CGContextSetLineWidth(context, _trackWidth);
     CGContextAddArc(context, archXPos,archYPos, archRadius, trackStartAngle, trackEndAngle, 1);
     CGContextStrokePath(context);
-
+    
     // Progress
     CGContextSetStrokeColorWithColor(context, self.progressColor.CGColor);
     CGContextSetLineWidth(context, _progressWidth);
     CGContextAddArc(context, archXPos, archYPos, archRadius, progressStartAngle, progressEndAngle, clockwise);
     CGContextStrokePath(context);
-
+    
+    float diminish = 6.5;
+	
+	CGRect startRect = [self rectForDegree:_startDegree andRect:rect andCornerWitdh:_startRoundedCornersWidth];
     // Rounded corners
-    if (_roundedCornersWidth > 0 && self.progress != 0.0f) {
+    if (_startRoundedCornersWidth > 0 && self.progress != 0.0f) {
         CGContextSetFillColorWithColor(context, self.progressColor.CGColor);
-        CGContextAddEllipseInRect(context, [self rectForDegree:_startDegree andRect:rect]);
-        CGContextAddEllipseInRect(context, [self rectForDegree:_endDegree andRect:rect]);
+        CGContextAddEllipseInRect(context, startRect);
+        CGContextFillPath(context);
+        CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+        CGContextAddEllipseInRect(context, CGRectInset(startRect, startRect.size.width/diminish, startRect.size.height/diminish));
         CGContextFillPath(context);
     }
-
-    self.startLabel.frame =  [self rectForDegree:_startDegree andRect:rect];
-    self.endLabel.frame =  [self rectForDegree:_endDegree andRect:rect];
-    self.startLabel.layer.cornerRadius = [self borderDelta];
-    self.endLabel.layer.cornerRadius = [self borderDelta];
+	
+	CGRect endRect = [self rectForDegree:_endDegree andRect:rect andCornerWitdh:_endRoundedCornersWidth];
+    if (_endRoundedCornersWidth > 0 && self.progress!= 0.0f) {
+        CGContextSetFillColorWithColor(context, self.progressColor.CGColor);
+        CGContextAddEllipseInRect(context, endRect);
+        CGContextFillPath(context);
+        CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+        CGContextAddEllipseInRect(context, CGRectInset(endRect, endRect.size.width/diminish, endRect.size.height/diminish));
+        CGContextFillPath(context);
+    }
+	
+	
+	self.startView.center =  CGPointMake(CGRectGetMidX(startRect), CGRectGetMidY(startRect));
+	self.endView.center =  CGPointMake(CGRectGetMidX(endRect), CGRectGetMidY(endRect));
+    self.startView.layer.cornerRadius = [self borderDeltaWithCornerWitdth:_startRoundedCornersWidth];
+    self.endView.layer.cornerRadius = [self borderDeltaWithCornerWitdth:_endRoundedCornersWidth];
 }
 
 #pragma mark - Helpers
 
-- (CGRect) rectForDegree:(float) degree andRect:(CGRect) rect
+- (CGRect)rectForDegree:(float)degree andRect:(CGRect)rect andCornerWitdh:(float)corenerWidth
 {
-    float x = [self xPosRoundForAngle:degree andRect:rect] - _roundedCornersWidth/2;
-    float y = [self yPosRoundForAngle:degree andRect:rect] - _roundedCornersWidth/2;
-    return CGRectMake(x, y, _roundedCornersWidth, _roundedCornersWidth);
+    float x = [self xPosRoundForAngle:degree andRect:rect andCornerWitdh:corenerWidth] - corenerWidth/2 - 2 * self.borderWidth;
+    float y = [self yPosRoundForAngle:degree andRect:rect andCornerWitdh:corenerWidth] - corenerWidth/2 - 2 * self.borderWidth;
+    
+    return CGRectMake(x, y, corenerWidth, corenerWidth);
 }
 
-- (float) xPosRoundForAngle:(float) degree andRect:(CGRect) rect
+- (float)xPosRoundForAngle:(float)degree andRect:(CGRect)rect andCornerWitdh:(float)corenerWidth
 {
     return cosf(KADegreesToRadians(degree))* [self radius]
-    - cosf(KADegreesToRadians(degree)) * [self borderDelta]
+    - cosf(KADegreesToRadians(degree)) * [self borderDeltaWithCornerWitdth:corenerWidth]
+    - cosf(KADegreesToRadians(degree)) * 2 * self.borderWidth
     + rect.size.width/2;
 }
 
-- (float) yPosRoundForAngle:(float) degree andRect:(CGRect) rect
+- (float)yPosRoundForAngle:(float)degree andRect:(CGRect)rect andCornerWitdh:(float)corenerWidth
 {
     return sinf(KADegreesToRadians(degree))* [self radius]
-    - sinf(KADegreesToRadians(degree)) * [self borderDelta]
-    + rect.size.height/2;
+    - sinf(KADegreesToRadians(degree)) * [self borderDeltaWithCornerWitdth:MAX(_endRoundedCornersWidth, _startRoundedCornersWidth)]
+    - sinf(KADegreesToRadians(degree)) * 2 * self.borderWidth
+    + rect.size.height/2 ;
 }
 
-- (float) borderDelta
+- (float) borderDeltaWithCornerWitdth:(float)corenerWidth
 {
-    return MAX(MAX(_trackWidth,_progressWidth),_roundedCornersWidth)/2;
+    return MAX(MAX(_trackWidth+_borderWidth,_progressWidth),corenerWidth)/2;
 }
 
 -(CGRect)rectForCircle:(CGRect)rect
 {
     CGFloat minDim = MIN(self.bounds.size.width, self.bounds.size.height);
-    CGFloat circleRadius = (minDim / 2) - [self borderDelta];
+    CGFloat circleRadius = (minDim/ 2) - [self borderDeltaWithCornerWitdth:MAX(_endRoundedCornersWidth, _startRoundedCornersWidth)];
     CGPoint circleCenter = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
     return CGRectMake(circleCenter.x - circleRadius, circleCenter.y - circleRadius, 2 * circleRadius, 2 * circleRadius);
 }

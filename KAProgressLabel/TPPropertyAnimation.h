@@ -43,12 +43,12 @@
 #import <UIKit/UIKit.h>
 
 // Animation timing types
-typedef enum {
+typedef NS_ENUM(unsigned int, TPPropertyAnimationTiming) {
     TPPropertyAnimationTimingLinear,
     TPPropertyAnimationTimingEaseIn,
     TPPropertyAnimationTimingEaseOut,
     TPPropertyAnimationTimingEaseInEaseOut
-} TPPropertyAnimationTiming;
+};
 
 @interface TPPropertyAnimation : NSObject {
     NSString *keyPath;
@@ -87,6 +87,8 @@ typedef enum {
 @property (nonatomic, retain) id toValue;
 @property (nonatomic, assign) TPPropertyAnimationTiming timing;
 @property (nonatomic, retain) TPPropertyAnimation *chainedAnimation;
+@property (nonatomic, copy) void (^completion)();
+
 @end
 
 // Implement this to act as a delegate
