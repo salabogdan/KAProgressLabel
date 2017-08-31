@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+#import "KAProgressLabel.h"
+#import "TPPropertyAnimation.h"
+
 //! Project version number for KAProgressLabel.
 FOUNDATION_EXPORT double KAProgressLabelVersionNumber;
 
 //! Project version string for KAProgressLabel.
 FOUNDATION_EXPORT const unsigned char KAProgressLabelVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <KAProgressLabel/PublicHeader.h>
 
 
