@@ -256,6 +256,10 @@
     }
 }
 
+- (BOOL)isAnimating {
+	return [TPPropertyAnimation allPropertyAnimationsForTarget:self].count > 0;
+}
+
 - (void)propertyAnimationDidFinish:(TPPropertyAnimation*)propertyAnimation
 {
     _currentStartDegreeAnimation = nil;

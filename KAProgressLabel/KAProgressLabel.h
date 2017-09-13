@@ -33,13 +33,15 @@ IB_DESIGNABLE
 @property (nonatomic, strong) UIView * endView;
 
 // Logic
-@property (nonatomic) IBInspectable CGFloat startDegree;
-@property (nonatomic) IBInspectable CGFloat endDegree;
-@property (nonatomic) IBInspectable CGFloat progress;
+@property (nonatomic, assign) IBInspectable CGFloat startDegree;
+@property (nonatomic, assign) IBInspectable CGFloat endDegree;
+@property (nonatomic, assign) IBInspectable CGFloat progress;
 
 // Interactivity
-@property (nonatomic) BOOL isStartDegreeUserInteractive;
-@property (nonatomic) BOOL isEndDegreeUserInteractive;
+@property (nonatomic, assign) BOOL isStartDegreeUserInteractive;
+@property (nonatomic, assign) BOOL isEndDegreeUserInteractive;
+
+@property (nonatomic, assign) BOOL isAnimating;
 
 // Getters
 - (float)radius;
