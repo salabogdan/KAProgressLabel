@@ -194,13 +194,13 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1) {
         
         if ( time >= 1.0 ) {
             // Animation has finished. Notify delegate, fire chained animation if there is one, and remove
-            if ( animation.delegate ) {
-                [animation.delegate propertyAnimationDidFinish:animation];
-            }
-			
 			if (animation.completion) {
 				animation.completion();
 			}
+			
+			if ( animation.delegate ) {
+                [animation.delegate propertyAnimationDidFinish:animation];
+            }
 			
             if ( animation.chainedAnimation ) {
                 [animation.chainedAnimation begin];

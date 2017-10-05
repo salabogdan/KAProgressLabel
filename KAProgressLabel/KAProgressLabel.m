@@ -241,7 +241,12 @@
 
 -(void)setProgress:(CGFloat)progress timing:(TPPropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay completion:(void (^)())completionBlock;
 {
-    [self setEndDegree:(progress*360) timing:timing duration:duration delay:delay completion:completionBlock];
+	__weak typeof(self) welf = self;
+	[self setEndDegree:(progress*360) timing:timing duration:duration delay:delay completion:^{
+		NSArray *animations = [TPPropertyAnimation allPropertyAnimationsForTarget:welf];
+		_isAnimating = animations.count == 1;
+		completionBlock();
+	}];
 }
 
 - (void) stopAnimations
@@ -256,9 +261,6 @@
     }
 }
 
-- (BOOL)isAnimating {
-	return [TPPropertyAnimation allPropertyAnimationsForTarget:self].count > 0;
-}
 
 - (void)propertyAnimationDidFinish:(TPPropertyAnimation*)propertyAnimation
 {
