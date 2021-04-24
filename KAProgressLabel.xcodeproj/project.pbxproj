@@ -8,18 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		05A9A252181B7ADF00CE7A38 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05A9A251181B7ADF00CE7A38 /* Main.storyboard */; };
+		754DEB7B2634BBB8000CF186 /* KAProgressLabel in Resources */ = {isa = PBXBuildFile; fileRef = 754DEB7A2634BBB8000CF186 /* KAProgressLabel */; };
 		82B0664F1766018C00D6F53E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA977F1E17651A7D0046C52E /* AppDelegate.m */; };
 		82B066501766018E00D6F53E /* Demo1.m in Sources */ = {isa = PBXBuildFile; fileRef = FA977F2717651A7D0046C52E /* Demo1.m */; };
 		82B066511766018F00D6F53E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA977F1A17651A7D0046C52E /* main.m */; };
-		82B066521766019100D6F53E /* TPPropertyAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B066451765DFBF00D6F53E /* TPPropertyAnimation.m */; };
-		82B066531766019300D6F53E /* KAProgressLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA977F3317651AAA0046C52E /* KAProgressLabel.m */; };
-		C72C5D101F57FF7000880A46 /* KAProgressLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = C72C5D001F57FF7000880A46 /* KAProgressLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C72C5D131F57FF7000880A46 /* KAProgress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C72C5CFE1F57FF7000880A46 /* KAProgress.framework */; };
 		C72C5D151F57FF7000880A46 /* KAProgress.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C72C5CFE1F57FF7000880A46 /* KAProgress.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C72C5D1C1F57FFBF00880A46 /* TPPropertyAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B066451765DFBF00D6F53E /* TPPropertyAnimation.m */; };
-		C72C5D1D1F57FFBF00880A46 /* KAProgressLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA977F3317651AAA0046C52E /* KAProgressLabel.m */; };
-		C72C5D1E1F57FFCE00880A46 /* TPPropertyAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B066441765DFBF00D6F53E /* TPPropertyAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C72C5D1F1F58006C00880A46 /* KAProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = FA977F3217651AAA0046C52E /* KAProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA977F0F17651A7D0046C52E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA977F0E17651A7D0046C52E /* UIKit.framework */; };
 		FA977F1117651A7D0046C52E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA977F1017651A7D0046C52E /* Foundation.framework */; };
 		FA977F1317651A7D0046C52E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA977F1217651A7D0046C52E /* CoreGraphics.framework */; };
@@ -57,11 +51,8 @@
 
 /* Begin PBXFileReference section */
 		05A9A251181B7ADF00CE7A38 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		82B066441765DFBF00D6F53E /* TPPropertyAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPPropertyAnimation.h; sourceTree = "<group>"; };
-		82B066451765DFBF00D6F53E /* TPPropertyAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPPropertyAnimation.m; sourceTree = "<group>"; };
+		754DEB7A2634BBB8000CF186 /* KAProgressLabel */ = {isa = PBXFileReference; lastKnownFileType = folder; name = KAProgressLabel; path = Sources/KAProgress/KAProgressLabel; sourceTree = "<group>"; };
 		C72C5CFE1F57FF7000880A46 /* KAProgress.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KAProgress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C72C5D001F57FF7000880A46 /* KAProgressLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KAProgressLabel.h; sourceTree = "<group>"; };
-		C72C5D011F57FF7000880A46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA977F0B17651A7D0046C52E /* KAProgressLabelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KAProgressLabelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA977F0E17651A7D0046C52E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FA977F1017651A7D0046C52E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -77,8 +68,6 @@
 		FA977F2417651A7D0046C52E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		FA977F2617651A7D0046C52E /* Demo1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Demo1.h; sourceTree = "<group>"; };
 		FA977F2717651A7D0046C52E /* Demo1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Demo1.m; sourceTree = "<group>"; };
-		FA977F3217651AAA0046C52E /* KAProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KAProgress.h; sourceTree = "<group>"; };
-		FA977F3317651AAA0046C52E /* KAProgressLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KAProgressLabel.m; sourceTree = "<group>"; };
 		FA977F3517651B4D0046C52E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FADFB34C1AB2E31C0085D188 /* Demo2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo2.h; sourceTree = "<group>"; };
 		FADFB34D1AB2E31C0085D188 /* Demo2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo2.m; sourceTree = "<group>"; };
@@ -107,24 +96,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C72C5CFF1F57FF7000880A46 /* KAProgressLabel */ = {
-			isa = PBXGroup;
-			children = (
-				82B066441765DFBF00D6F53E /* TPPropertyAnimation.h */,
-				82B066451765DFBF00D6F53E /* TPPropertyAnimation.m */,
-				FA977F3217651AAA0046C52E /* KAProgress.h */,
-				FA977F3317651AAA0046C52E /* KAProgressLabel.m */,
-				C72C5D001F57FF7000880A46 /* KAProgressLabel.h */,
-				C72C5D011F57FF7000880A46 /* Info.plist */,
-			);
-			path = KAProgressLabel;
-			sourceTree = "<group>";
-		};
 		FA977F0217651A7D0046C52E = {
 			isa = PBXGroup;
 			children = (
+				754DEB7A2634BBB8000CF186 /* KAProgressLabel */,
 				FA977F3117651A8F0046C52E /* Demo */,
-				C72C5CFF1F57FF7000880A46 /* KAProgressLabel */,
 				FA977F0D17651A7D0046C52E /* Frameworks */,
 				FA977F0C17651A7D0046C52E /* Products */,
 			);
@@ -187,9 +163,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C72C5D1E1F57FFCE00880A46 /* TPPropertyAnimation.h in Headers */,
-				C72C5D101F57FF7000880A46 /* KAProgressLabel.h in Headers */,
-				C72C5D1F1F58006C00880A46 /* KAProgress.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +226,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = FA977F0217651A7D0046C52E;
@@ -282,6 +256,7 @@
 				FA977F2117651A7D0046C52E /* Default.png in Resources */,
 				FA977F2317651A7D0046C52E /* Default@2x.png in Resources */,
 				05A9A252181B7ADF00CE7A38 /* Main.storyboard in Resources */,
+				754DEB7B2634BBB8000CF186 /* KAProgressLabel in Resources */,
 				FA977F2517651A7D0046C52E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,8 +268,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C72C5D1C1F57FFBF00880A46 /* TPPropertyAnimation.m in Sources */,
-				C72C5D1D1F57FFBF00880A46 /* KAProgressLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,9 +277,7 @@
 			files = (
 				82B0664F1766018C00D6F53E /* AppDelegate.m in Sources */,
 				82B066501766018E00D6F53E /* Demo1.m in Sources */,
-				82B066531766019300D6F53E /* KAProgressLabel.m in Sources */,
 				FADFB34E1AB2E31C0085D188 /* Demo2.m in Sources */,
-				82B066521766019100D6F53E /* TPPropertyAnimation.m in Sources */,
 				82B066511766018F00D6F53E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,6 +482,7 @@
 				C72C5D181F57FF7000880A46 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA977F0617651A7D0046C52E /* Build configuration list for PBXProject "KAProgressLabel" */ = {
 			isa = XCConfigurationList;

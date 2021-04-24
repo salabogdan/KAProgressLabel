@@ -1,3 +1,0 @@
-# KAProgress
-
-Progress label 
