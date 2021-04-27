@@ -6,7 +6,7 @@
 //  Copyright 2010 A Tasty Pixel. All rights reserved.
 //
 
-#import "TPPropertyAnimation.h"
+#import "include/KAProgress/TPPropertyAnimation.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define kRefreshRate 1.0/30.0

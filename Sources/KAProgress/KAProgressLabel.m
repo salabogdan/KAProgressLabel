@@ -7,7 +7,7 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "KAProgressLabel.h"
+#import "include/KAProgress/KAProgressLabel.h"
 
 #define KADegreesToRadians(degrees) ((degrees)/180.0*M_PI)
 #define KARadiansToDegrees(radians) ((radians)*180.0/M_PI)

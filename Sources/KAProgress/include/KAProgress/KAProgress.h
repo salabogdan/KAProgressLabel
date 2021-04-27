@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "KAProgressLabel.h"
-#import "TPPropertyAnimation.h"
+#import <KAProgress/KAProgressLabel.h>
+#import <KAProgress/TPPropertyAnimation.h>
 
 //! Project version number for KAProgressLabel.
 FOUNDATION_EXPORT double KAProgressLabelVersionNumber;
